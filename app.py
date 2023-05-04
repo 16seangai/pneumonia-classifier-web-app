@@ -2,8 +2,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from inference import get_prediction
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app, origins=['http://localhost:3000'])
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 @app.route('/predict', methods=['POST'])
 def hello():

@@ -18,4 +18,6 @@ def transform_image(image_bytes):
 def get_prediction(image_bytes):
     tensor = transform_image(image_bytes)
     output = model(tensor)
-    return 'normal' if output.item() <= 0.5 else 'pneumonia'
+    class_name = 'normal' if output.item() <= 0.5 else 'pneumonia'
+    confidence = output.item() if class_name == 'pneumonia' else 1.0 - output.item()
+    return class_name, confidence
